@@ -1,0 +1,23 @@
+# Describes the services that make your app 
+# in this example this is a webserver and a database
+# describes the images these services use how they link together any volumes 
+# needed to be mounted into the containers
+
+version: '3'
+    
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
